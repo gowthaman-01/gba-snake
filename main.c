@@ -12,6 +12,7 @@
 #define TITLE_END 1
 #define END_PLAYING 0
 #define END_RESTART 1
+#define END_RESTART2 2
 #define SNAKE_LEFT 0
 #define SNAKE_RIGHT 2
 #define SNAKE_UP 0
@@ -21,11 +22,11 @@
 #define UP 2
 #define DOWN 3
 #define SNAKE_STOPPED 1
-#define NUM_CELLS_X 22
-#define NUM_CELLS_Y 14
-#define SIZE_CELL 10
+#define NUM_CELLS_X 28
+#define NUM_CELLS_Y 18
+#define SIZE_CELL 8
 #define SIZE_FRAME 2
-#define SIZE_PADDING 8
+#define SIZE_PADDING 6
 #define STATE_PLAYING 0
 #define STATE_WON 1
 #define STATE_LOST 2
@@ -34,205 +35,9 @@
 #define STATE_GAME 2
 #define STATE_END 3
 #define STATE_PAUSE 4
-
-// Font data for rendering text.
-// Each entry in the array represents a glyph (character) in the font.
-// Each glyph is defined by a 8x8 pixel matrix, encoded as a 32-bit unsigned integer.
-const unsigned int fontTiles[192] =
-    {
-        0x00000000,
-        0x00000000,
-        0x18181818,
-        0x00180018,
-        0x00003636,
-        0x00000000,
-        0x367F3636,
-        0x0036367F,
-        0x3C067C18,
-        0x00183E60,
-        0x1B356600,
-        0x0033566C,
-        0x6E16361C,
-        0x00DE733B,
-        0x000C1818,
-        0x00000000,
-        0x0C0C1830,
-        0x0030180C,
-        0x3030180C,
-        0x000C1830,
-        0xFF3C6600,
-        0x0000663C,
-        0x7E181800,
-        0x00001818,
-        0x00000000,
-        0x0C181800,
-        0x7E000000,
-        0x00000000,
-        0x00000000,
-        0x00181800,
-        0x183060C0,
-        0x0003060C,
-        0x7E76663C,
-        0x003C666E,
-        0x181E1C18,
-        0x00181818,
-        0x3060663C,
-        0x007E0C18,
-        0x3860663C,
-        0x003C6660,
-        0x33363C38,
-        0x0030307F,
-        0x603E067E,
-        0x003C6660,
-        0x3E060C38,
-        0x003C6666,
-        0x3060607E,
-        0x00181818,
-        0x3C66663C,
-        0x003C6666,
-        0x7C66663C,
-        0x001C3060,
-        0x00181800,
-        0x00181800,
-        0x00181800,
-        0x0C181800,
-        0x06186000,
-        0x00006018,
-        0x007E0000,
-        0x0000007E,
-        0x60180600,
-        0x00000618,
-        0x3060663C,
-        0x00180018,
-        0x5A5A663C,
-        0x003C067A,
-        0x7E66663C,
-        0x00666666,
-        0x3E66663E,
-        0x003E6666,
-        0x06060C78,
-        0x00780C06,
-        0x6666361E,
-        0x001E3666,
-        0x1E06067E,
-        0x007E0606,
-        0x1E06067E,
-        0x00060606,
-        0x7606663C,
-        0x007C6666,
-        0x7E666666,
-        0x00666666,
-        0x1818183C,
-        0x003C1818,
-        0x60606060,
-        0x003C6660,
-        0x0F1B3363,
-        0x0063331B,
-        0x06060606,
-        0x007E0606,
-        0x6B7F7763,
-        0x00636363,
-        0x7B6F6763,
-        0x00636373,
-        0x6666663C,
-        0x003C6666,
-        0x3E66663E,
-        0x00060606,
-        0x3333331E,
-        0x007E3B33,
-        0x3E66663E,
-        0x00666636,
-        0x3C0E663C,
-        0x003C6670,
-        0x1818187E,
-        0x00181818,
-        0x66666666,
-        0x003C6666,
-        0x66666666,
-        0x00183C3C,
-        0x6B636363,
-        0x0063777F,
-        0x183C66C3,
-        0x00C3663C,
-        0x183C66C3,
-        0x00181818,
-        0x0C18307F,
-        0x007F0306,
-        0x0C0C0C3C,
-        0x003C0C0C,
-        0x180C0603,
-        0x00C06030,
-        0x3030303C,
-        0x003C3030,
-        0x00663C18,
-        0x00000000,
-        0x00000000,
-        0x003F0000,
-        0x00301818,
-        0x00000000,
-        0x603C0000,
-        0x007C667C,
-        0x663E0606,
-        0x003E6666,
-        0x063C0000,
-        0x003C0606,
-        0x667C6060,
-        0x007C6666,
-        0x663C0000,
-        0x003C067E,
-        0x0C3E0C38,
-        0x000C0C0C,
-        0x667C0000,
-        0x3C607C66,
-        0x663E0606,
-        0x00666666,
-        0x18180018,
-        0x00301818,
-        0x30300030,
-        0x1E303030,
-        0x36660606,
-        0x0066361E,
-        0x18181818,
-        0x00301818,
-        0x7F370000,
-        0x0063636B,
-        0x663E0000,
-        0x00666666,
-        0x663C0000,
-        0x003C6666,
-        0x663E0000,
-        0x06063E66,
-        0x667C0000,
-        0x60607C66,
-        0x663E0000,
-        0x00060606,
-        0x063C0000,
-        0x003E603C,
-        0x0C3E0C0C,
-        0x00380C0C,
-        0x66660000,
-        0x007C6666,
-        0x66660000,
-        0x00183C66,
-        0x63630000,
-        0x00367F6B,
-        0x36630000,
-        0x0063361C,
-        0x66660000,
-        0x0C183C66,
-        0x307E0000,
-        0x007E0C18,
-        0x0C181830,
-        0x00301818,
-        0x18181818,
-        0x00181818,
-        0x3018180C,
-        0x000C1818,
-        0x003B6E00,
-        0x00000000,
-        0x00000000,
-        0x00000000,
-};
+#define spriteData ((unsigned short *)0x6010000)
+#define spritePal ((unsigned short *)0x5000200)
+;
 
 // Pseudo-random number generator state.
 static unsigned long int next = 1;
@@ -258,6 +63,7 @@ const int gridStart = SIZE_FRAME + SIZE_PADDING;
 
 // Game results.
 static int result = 0;
+int lvl2 = 0;
 
 // Snake structures.
 typedef struct SnakeNode SnakeNode;
@@ -299,12 +105,13 @@ void tickAndDrawGame();
 int getGameOverState();
 void beginTitleScreen();
 void restartGame();
+void restartGame2();
 void beginGameOverScreen();
 void spawnTargetNode();
 uint8 getCellValue(int x, int y);
 void drawSprite(int numb, int N, int x, int y);
 void setCellValue(int x, int y, uint8 value);
-void drawRect(int left, int top, int right, int bottom, COLOR clr);
+void drawRect2(int left, int top, int width, int height, COLOR clr);
 void drawPixel(int x, int y, COLOR clr);
 extern int calc_pixel_location(int x, int y);
 void UpdateVelocityX(Snake *s, int vel);
@@ -327,8 +134,8 @@ int UpdateSnake(Snake *s);
  */
 int main()
 {
-    // Initialize the display mode to mode 3 and enable background 2.
-    REG_DISPCNT = DCNT_MODE3 | DCNT_BG2;
+    // Set Mode 2
+    *(unsigned short *)0x4000000 = 0x40 | 0x2 | 0x1000;
 
     // Enable interrupts to allow for event-driven behavior.
     REG_IME = 1;
@@ -416,6 +223,12 @@ int main()
                 if (currentState == END_RESTART)
                 {
                     TargetState = STATE_GAME;
+                    lvl2 = 0;
+                }
+                if (currentState == END_RESTART2)
+                {
+                    lvl2 = 1;
+                    TargetState = STATE_GAME;
                 }
             }
             break;
@@ -448,32 +261,6 @@ void drawPixel(int x, int y, COLOR clr)
  * Draws a filled rectangle with the specified color.
  *
  * This function fills a rectangle with the specified color in the video memory (VRAM) buffer.
- * The rectangle is defined by its top-left and bottom-right coordinates.
- *
- * @param left The x-coordinate of the left edge of the rectangle.
- * @param top The y-coordinate of the top edge of the rectangle.
- * @param right The x-coordinate of the right edge of the rectangle.
- * @param bottom The y-coordinate of the bottom edge of the rectangle.
- * @param clr The color to fill the rectangle with.
- */
-void drawRect(int left, int top, int right, int bottom, COLOR clr)
-{
-    uint32 width = right - left;
-    uint32 height = bottom - top;
-
-    for (int y = 0; y < height; ++y)
-    {
-        for (int x = 0; x < width; ++x)
-        {
-            drawPixel(left + x, top + y, clr);
-        }
-    }
-}
-
-/**
- * Draws a filled rectangle with the specified color.
- *
- * This function fills a rectangle with the specified color in the video memory (VRAM) buffer.
  * The rectangle is defined by its top-left coordinate, width, and height.
  *
  * @param left The x-coordinate of the left edge of the rectangle.
@@ -493,53 +280,12 @@ void drawRect2(int left, int top, int width, int height, COLOR clr)
     }
 }
 
-/**
- * @brief Renders a string of text on the screen.
- *
- * This function renders a string of text starting from the specified position (x, y)
- * with the given text color. It iterates through each character in the string,
- * rendering them on the screen. Line breaks ('\n') are supported, and the text
- * will wrap to the next line.
- *
- * @param msg Pointer to the null-terminated string to render.
- * @param textCol Color of the text to render.
- * @param x X-coordinate of the starting position.
- * @param y Y-coordinate of the starting position.
- */
-void drawString(char *msg, COLOR textCol, int x, int y)
+void fillPalette(void)
 {
-    int c = *msg++;                               // Get the first character of the message.
-    uint16 *dst = &vid_mem[y * SCREEN_WIDTH + x]; // Set the destination pointer to the starting position for rendering.
-
-    while (c != '\0') // Loop until the end of the message string.
-    {
-        if (c == '\n') // Check if a line break is encountered.
-        {
-            dst += SCREEN_WIDTH * 8; // Move the destination pointer to the next line.
-            x = 0;                   // Reset the x-coordinate for the new line.
-        }
-        else // Render normal characters.
-        {
-            uint32 row;
-            uint8 *glyphBytes = (uint8 *)&fontTiles[2 * (c - 32)]; // Get the glyph data for the current character.
-
-            for (int iy = 0; iy < 8; iy++) // Iterate over each row of the glyph.
-            {
-                row = glyphBytes[iy]; // Get the current row of the glyph.
-
-                for (int ix = x; row > 0; row >>= 1, ix++) // Iterate over each pixel in the row.
-                {
-                    if (row & 1) // Check if the current pixel is set.
-                    {
-                        dst[(y + iy) * SCREEN_WIDTH + (x + ix)] = textCol; // Set the pixel color in the video memory.
-                    }
-                }
-            }
-            x += 4; // Move the x-coordinate to the next character position (advance by 4 pixels).
-        }
-
-        c = *msg++; // Get the next character in the message.
-    }
+    int i;
+    // Fill the palette in GBA memory
+    for (i = 0; i < NCOLS; i++)
+        spritePal[i] = palette[i];
 }
 
 /**
@@ -556,8 +302,20 @@ void drawString(char *msg, COLOR textCol, int x, int y)
 void drawSprite(int numb, int N, int x, int y)
 {
     *(unsigned short *)(0x7000000 + 8 * N) = y | 0x2000;
-    *(unsigned short *)(0x7000002 + 8 * N) = x | 0x4000;
-    *(unsigned short *)(0x7000004 + 8 * N) = numb * 8;
+    *(unsigned short *)(0x7000002 + 8 * N) = x;
+    *(unsigned short *)(0x7000004 + 8 * N) = numb * 2;
+}
+
+void fillSprites(void)
+{
+    int i;
+    // Load all sprites in GBA memory
+    for (i = 0; i < 128 * 16 * 16; i++)
+        spriteData[i] = (sprites[i * 2 + 1] << 8) + sprites[i * 2];
+
+    // draw all sprites on screen, but all of them outside of the screen (starting at position (240,160) the bottom right corner of the GBA screen)
+    for (i = 0; i < 128; i++)
+        drawSprite(0, i, 240, 160);
 }
 
 // -----------------------------------------------------------------------------
@@ -631,9 +389,15 @@ int getTitleScreenState()
  */
 void beginTitleScreen()
 {
+    int i;
     state = TITLE_PLAYING;
-    drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, COL_LIME);
-    drawString("GBA SNAKE", COL_BLACK, 40, 40);
+    fillPalette();
+    fillSprites();
+    // display SNAKE title
+    for (i = 0; i < 5; i++)
+    {
+        drawSprite(i, 48 + i, 80 + (i * 8), 80);
+    }
 }
 
 /**
@@ -689,10 +453,19 @@ void tickAndDrawGame()
         return;
     }
 
-    // Check for win conditions.
-    if (snake.length == NUM_CELLS_Y * NUM_CELLS_X)
+    // Check for win conditions for lvl 1
+    if (snake.length >= 8 && (!lvl2))
     {
         gameState = STATE_WON;
+        result = snake.length;
+        return;
+    }
+
+    // Check for win conditions for lvl 2
+    if (snake.length >= 16 && (lvl2))
+    {
+        gameState = STATE_WON;
+        result = snake.length;
         return;
     }
 
@@ -706,9 +479,7 @@ void tickAndDrawGame()
     }
 
     // Clear the tail cell.
-    drawRect2(gridStart + snake.tail->x * SIZE_CELL,
-              gridStart + snake.tail->y * SIZE_CELL,
-              SIZE_CELL, SIZE_CELL, COL_BLACK);
+    drawSprite(16, 64, gridStart + snake.tail->x * SIZE_CELL + 8, gridStart + snake.tail->y * SIZE_CELL + 8);
 
     setCellValue(snake.tail->x, snake.tail->y, 0);
 
@@ -719,10 +490,18 @@ void tickAndDrawGame()
         return;
     }
 
+    // Draw snake body
+    int spriteNum = 17;
+    int sprite_index = 90;
+    SnakeNode *currentNode = snake.tail;
+    while (currentNode != NULL)
+    {
+        drawSprite(spriteNum, sprite_index++, gridStart + currentNode->x * SIZE_CELL, gridStart + currentNode->y * SIZE_CELL);
+        currentNode = currentNode->prev;
+    }
+
     // Draw snake head
-    drawRect2(gridStart + snake.head.x * SIZE_CELL,
-              gridStart + snake.head.y * SIZE_CELL,
-              SIZE_CELL, SIZE_CELL, COL_WHITE);
+    drawSprite(17, 66, gridStart + snake.head.x * SIZE_CELL, gridStart + snake.head.y * SIZE_CELL);
 
     setCellValue(snake.head.x, snake.head.y, 1);
 }
@@ -734,6 +513,8 @@ void tickAndDrawGame()
  */
 void renderGame()
 {
+    fillPalette();
+    fillSprites();
     spawnTargetNode();
 }
 
@@ -752,8 +533,8 @@ void restartGame()
     InitSnake(&snake, snakeStartX, snakeStartY, NUM_CELLS_Y * NUM_CELLS_X);
 
     // Clear screen.
-    drawRect2(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, COL_BLACK);
-
+    fillPalette();
+    fillSprites();
     // Redraw frame.
     const int PS = SIZE_PADDING + SIZE_FRAME;
     const int FRAME_RIGHT = SCREEN_WIDTH - PS;
@@ -764,6 +545,7 @@ void restartGame()
     drawRect2(FRAME_RIGHT, FRAME_TOP, SIZE_FRAME, SCREEN_HEIGHT - SIZE_PADDING * 2, COL_LIME);
     drawRect2(FRAME_LEFT, FRAME_TOP, SIZE_FRAME, SCREEN_HEIGHT - SIZE_PADDING * 2, COL_LIME);
     drawRect2(FRAME_LEFT, FRAME_HEIGHT, SCREEN_WIDTH - SIZE_PADDING * 2, SIZE_FRAME, COL_LIME);
+
     // Spawn target node.
     spawnTargetNode();
 }
@@ -814,14 +596,8 @@ void spawnTargetNode()
     // Set the target node's coordinates.
     targetNode.x = tX;
     targetNode.y = tY;
-
-    // Draw the target node (apple) on the screen at the corresponding location.
-    drawRect2(gridStart + tX * SIZE_CELL,
-              gridStart + tY * SIZE_CELL,
-              SIZE_CELL, SIZE_CELL, COL_RED);
-
-    // Draw the apple sprite at the target node's location.
-    drawSprite(0, 4, gridStart + tX * SIZE_CELL, gridStart + tY * SIZE_CELL);
+    // Draw the target node (food) on the screen at the corresponding location.
+    drawSprite(15, 63, gridStart + tX * SIZE_CELL, gridStart + tY * SIZE_CELL);
 }
 
 /**
@@ -891,35 +667,73 @@ void handleGameInput()
 }
 
 /**
- * @brief Sets the match result.
- *
- * @param didPlayerWin A flag indicating whether the player won or lost the game.
- */
-void SetMatchResult(int didPlayerWin)
-{
-    result = didPlayerWin;
-}
-
-/**
  * @brief Initializes the game over screen.
  *
  * This function sets up the game over screen based on the match result and draws appropriate messages.
  */
 void beginGameOverScreen()
 {
+    int i;
     state = END_PLAYING;
 
-    if (result)
+    if ((result >= 16) && lvl2)
     {
-        drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, COL_BLACK);
-        drawString("A WINNER IS YOU", COL_LIME, 25, 25);
-        drawString("Press Start To Retry ", COL_LIME, 13, 35);
+        // Display "YOU WON LV2"
+        fillPalette();
+        fillSprites();
+        int you_text[] = {5, 6, 7};
+        int won_text[] = {8, 9, 10};
+        int LV2_text[] = {18, 19, 21};
+        for (i = 0; i < 3; i++)
+        {
+            drawSprite(you_text[i], 0 + i, 70 + (i * 8), 80);
+        }
+        for (i = 0; i < 3; i++)
+        {
+            drawSprite(won_text[i], 5 + i, 102 + (i * 8), 80);
+        }
+        for (i = 0; i < 3; i++)
+        {
+            drawSprite(LV2_text[i], 10 + i, 134 + (i * 8), 80);
+        }
+    }
+
+    else if ((result >= 8) && !lvl2)
+    {
+        // Display "YOU WON LV1"
+        fillPalette();
+        fillSprites();
+        int you_text[] = {5, 6, 7};
+        int won_text[] = {8, 9, 10};
+        int LV1_text[] = {18, 19, 20};
+        for (i = 0; i < 3; i++)
+        {
+            drawSprite(you_text[i], 0 + i, 70 + (i * 8), 80);
+        }
+        for (i = 0; i < 3; i++)
+        {
+            drawSprite(won_text[i], 5 + i, 102 + (i * 8), 80);
+        }
+        for (i = 0; i < 3; i++)
+        {
+            drawSprite(LV1_text[i], 10 + i, 134 + (i * 8), 80);
+        }
     }
     else
     {
-        drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, COL_RED);
-        drawString("You Lost", COL_BLACK, 25, 25);
-        drawString("Press Start To Retry ", COL_BLACK, 13, 35);
+        // Display "YOU LOST"
+        fillPalette();
+        fillSprites();
+        int you_text[] = {5, 6, 7};
+        int lost_text[] = {11, 12, 13, 14};
+        for (i = 0; i < 3; i++)
+        {
+            drawSprite(you_text[i], 0 + i, 70 + (i * 8), 80);
+        }
+        for (i = 0; i < 4; i++)
+        {
+            drawSprite(lost_text[i], 5 + i, 102 + (i * 8), 80);
+        }
     }
 }
 
@@ -932,8 +746,19 @@ void handleGameOverInput()
 {
     if (key_curr_state() != key_prev_state())
     {
+        // Go to lvl 2
+        if (key_is_down(KEY_START) && (result >= 8))
+        {
+            lvl2 = 1;
+            result = 0;
+            state = END_RESTART2;
+            return;
+        }
+        // Restart lvl 1
         if (key_is_down(KEY_START))
         {
+            lvl2 = 0;
+            result = 0;
             state = END_RESTART;
         }
     }
@@ -988,7 +813,6 @@ int UpdateSnake(Snake *s)
     {
         return 1; // Do not update the snake if the game is paused
     }
-
     SnakeNode *curNode = s->tail;
 
     while (curNode != NULL)
@@ -1017,7 +841,6 @@ int UpdateSnake(Snake *s)
             s->lastXMov = (s->xVel);
             s->lastYMov = (s->yVel);
             setCellValue(newX, newY, 1);
-
             break;
         }
     }
@@ -1037,34 +860,6 @@ void AddNode(Snake *s)
     newTail->prev = s->tail;
     s->tail = newTail;
     s->length++;
-}
-
-/**
- * @brief Draws a loose node of the snake.
- *
- * @param n Pointer to the loose node.
- * @param gridOffset Offset of the grid.
- * @param nodeSize Size of the node.
- */
-void DrawLooseNode(SnakeNode *n, int gridOffset, int nodeSize)
-{
-    drawRect2(gridOffset + n->x * nodeSize,
-              gridOffset + n->y * nodeSize,
-              nodeSize, nodeSize, COL_YELLOW);
-}
-
-/**
- * @brief Clears a loose node of the snake.
- *
- * @param n Pointer to the loose node.
- * @param gridOffset Offset of the grid.
- * @param nodeSize Size of the node.
- */
-void ClearLooseNode(SnakeNode *n, int gridOffset, int nodeSize)
-{
-    drawRect2(gridOffset + n->x * nodeSize,
-              gridOffset + n->y * nodeSize,
-              nodeSize, nodeSize, COL_BLACK);
 }
 
 /**
